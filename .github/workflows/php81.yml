@@ -22,14 +22,17 @@ jobs:
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         password: ${{ secrets.DOCKER_LOGIN_PASS }}
         
+    - name: Extract metadata (tags, labels) for Docker
+      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      with:
+        images: minicli/php81
+          
     - uses: chainguard-images/actions/apko-snapshot@main
       with:
         config: php81/apko.yaml
         base-tag: minicli/php81
         package-version-tag: php81
-        registry: docker.io/minicli
-        username: ${{ secrets.DOCKER_LOGIN_USER }}
-        password: ${{ secrets.DOCKER_LOGIN_PASS }}
+        registry: docker.io
 
     - name: Emit Image Refs output
       id: emit-refs
