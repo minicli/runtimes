@@ -28,7 +28,7 @@ jobs:
         config: php81/apko.yaml
         base-tag: minicli/php81
         package-version-tag: php81
-        registry: docker.io
+        registry: docker.io/minicli
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         password: ${{ secrets.DOCKER_LOGIN_PASS }}
 
