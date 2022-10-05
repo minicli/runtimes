@@ -1,14 +1,10 @@
+name: Publish php81 Image
 on:
   push:
     branches:
       - main
       
   workflow_dispatch: {}
-
-name: Publish Image
-
-# Don't run multiple releases concurrently.
-concurrency: release
 
 jobs:
   build:
