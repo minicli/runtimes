@@ -1,48 +1,43 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
-
-name: Publish Images to Docker Hub
-
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
-jobs:
-  push_to_registry:
-    name: Push Images to Docker Hub
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
+  push:
+    branches:
+      - main
       
-      - name: Log in to Docker Hub
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          username: ${{ secrets.DOCKER_LOGIN_USER }}
-          password: ${{ secrets.DOCKER_LOGIN_PASS }}
-      
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: minicli/php81
-      
-      - uses: chainguard-dev/actions/apko-build@main
-        id: apko
-        with:
-          config: php81/apko.yaml
-          base-tag: minicli/php81
-          package-version-tag: php81
-          registry: docker.io
-          username: ${{ secrets.DOCKER_LOGIN_USER }}
-          password: ${{ secrets.DOCKER_LOGIN_PASS }}
+  workflow_dispatch: {}
 
-      - shell: bash
-        run: |
-          COSIGN_EXPERIMENTAL=true cosign sign ${{ steps.apko.outputs.digest }}
+name: Publish Image
+
+# Don't run multiple releases concurrently.
+concurrency: release
+
+jobs:
+  build:
+    name: Release OCI image
+    runs-on: ubuntu-latest
+
+    outputs:
+      image-refs: ${{ steps.emit-refs.outputs.image-refs }}
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        username: ${{ github.DOCKER_LOGIN_USER }}
+        password: ${{ secrets.DOCKER_LOGIN_PASS }}
+        
+    - uses: chainguard-images/actions/apko-snapshot@main
+      with:
+        config: php81/apko.yaml
+        base-tag: minicli/php81
+        package-version-tag: php81
+        registry: docker.io
+        username: ${{ github.DOCKER_LOGIN_USER }}
+        password: ${{ secrets.DOCKER_LOGIN_PASS }}
+
+    - name: Emit Image Refs output
+      id: emit-refs
+      run: |
+          cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
+          echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
