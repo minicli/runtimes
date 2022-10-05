@@ -1,8 +1,7 @@
 name: Publish php81 Image
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
       
   workflow_dispatch: {}
 
