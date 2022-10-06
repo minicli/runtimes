@@ -1,6 +1,12 @@
 # minicli:php81
 
-Distroless apko PHP 8.1 image to execute Minicli applications, including full GD support.
+Distroless apko PHP 8.1 image to execute Minicli applications, including full GD support. This image is automatically built and published to [minicli/php81](https://hub.docker.com/repository/docker/minicli/php81) on Docker Hub via GitHub Actions. Every image includes attestation signatures created with [Sigstore](https://docs.sigstore.dev). With the Cosign client installed, you can check this image signature with:
+
+```shell
+COSIGN_EXPERIMENTAL=1 cosign verify minicli/php81:latest | jq
+```
+
+You'll get output that tells details about the image signature and should have the `Issuer` and `Subject` fields pointing to GitHub URLs.
 
 ## Usage
 
@@ -13,6 +19,8 @@ docker run --rm erikaheidi/minicli:php81 --version
 Or extend it from your Dockerfile to create a custom image based on it. This will allow you to install Composer and get your application dependencies installed as well. For instance, the following Dockerfile is used by the [Dynacover](https://github.com/erikaheidi/dynacover) GitHub Action:
 
 ```Dockerfile
+FROM minicli/php81:latest
+
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -30,7 +38,7 @@ CMD ["cover", "update"]
 - Non-root user: `minicli`
 - By default, runs commands as `root` 
 
-What's included:
+## What's included:
 
 - alpine-baselayout-data
 - ca-certificates-bundle
