@@ -1,4 +1,4 @@
-name: Publish minicli/php81 Image
+name: Publish minicli/php81:dev Image
 on:
   release:
     types: [published]
@@ -26,8 +26,8 @@ jobs:
           
     - uses: cpanato/chainguard-images-actions/apko-snapshot@updates
       with:
-        config: php81/apko.yaml
-        base-tag: minicli/php81
+        config: php81-dev/apko.yaml
+        base-tag: minicli/php81:dev
         package-version-tag: 8.1
         registry: docker.io        
         username: ${{ secrets.DOCKER_LOGIN_USER }}
