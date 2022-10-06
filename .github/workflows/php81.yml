@@ -2,8 +2,8 @@ name: Publish minicli/php81 Image
 on:
   release:
     types: [published]
-  schedule:
-    - 0 2 * * *
+  schedule: 
+    - cron: "0 2 * * *"
   workflow_dispatch: {}
 
 jobs:
