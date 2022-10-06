@@ -30,9 +30,9 @@ jobs:
     - uses: cpanato/chainguard-images-actions/apko-snapshot@updates
       with:
         config: php81/apko.yaml
-        base-tag: minicli/php81
+        base-tag: minicli/php
         archs: x86_64,aarch64,armv7
-        package-version-tag: php81
+        package-version-tag: "8.1"
         registry: docker.io        
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         token: ${{ secrets.DOCKER_LOGIN_PASS }}
