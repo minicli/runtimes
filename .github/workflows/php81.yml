@@ -10,6 +10,9 @@ jobs:
     name: Release OCI image
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      
     outputs:
       image-refs: ${{ steps.emit-refs.outputs.image-refs }}
 
@@ -26,13 +29,18 @@ jobs:
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
         images: minicli/php81
+   
+    - run: cp $HOME/.docker/config.json .
           
-    - uses: chainguard-images/actions/apko-snapshot@main
+    - uses: cpanato/chainguard-images-actions/apko-snapshot@updates
       with:
         config: php81/apko.yaml
         base-tag: minicli/php81
         package-version-tag: php81
-        registry: docker.io
+        registry: docker.io        
+        username: ${{ secrets.DOCKER_LOGIN_USER }}
+        token: ${{ secrets.DOCKER_LOGIN_PASS }}
+        
 
     - name: Emit Image Refs output
       id: emit-refs
