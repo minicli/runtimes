@@ -1,4 +1,4 @@
-name: Publish php81 Image
+name: Publish PHP 8.1 Image
 on:
   release:
     types: [published]
@@ -24,11 +24,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         password: ${{ secrets.DOCKER_LOGIN_PASS }}
-        
-    - name: Extract metadata (tags, labels) for Docker
-      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-      with:
-        images: minicli/php81
    
     - run: cp $HOME/.docker/config.json .
           
@@ -41,7 +36,7 @@ jobs:
         registry: docker.io        
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         token: ${{ secrets.DOCKER_LOGIN_PASS }}
-        
+        image_refs: apko.images
 
     - name: Emit Image Refs output
       id: emit-refs
