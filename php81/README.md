@@ -1,12 +1,14 @@
 # minicli/php81
 
-Distroless apko PHP 8.1 image to execute Minicli applications, including full GD support. This image is automatically built and published to [minicli/php81](https://hub.docker.com/repository/docker/minicli/php81) on Docker Hub via GitHub Actions. Every image includes attestation signatures created with [Sigstore](https://docs.sigstore.dev). With the [Cosign](https://docs.sigstore.dev/cosign/overview) client installed, you can check this image signature with:
+Distroless Alpine-based PHP 8.1 image to execute Minicli applications, including full GD support. As a distroless image, it doesn't contain `apk` or `composer`. By design, this limits the attack surface and makes the runtime more hermetic, which has several benefits in terms of security. For a non-distroless alternative, check the [php81-dev](https://hub.docker.com/repository/docker/minicli/php81-dev) image. 
+
+This image is automatically built and published to [minicli/php81](https://hub.docker.com/repository/docker/minicli/php81) on Docker Hub via GitHub Actions. Every image includes attestation signatures created with [Sigstore](https://docs.sigstore.dev). With the [Cosign](https://docs.sigstore.dev/cosign/overview) client installed, you can check this image signature with:
 
 ```shell
 COSIGN_EXPERIMENTAL=1 cosign verify minicli/php81:latest | jq
 ```
 
-You'll get output that tells details about the image signature and should have the `Issuer` and `Subject` fields pointing to GitHub URLs.
+You'll get output that tells details about the image signature and should have the `Issuer` and `Subject` fields pointing to GitHub (Actions) URLs.
 
 ## Usage
 

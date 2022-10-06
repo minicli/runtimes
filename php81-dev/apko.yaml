@@ -1,0 +1,40 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+  packages:
+    - alpine-baselayout-data
+    - ca-certificates-bundle
+    - apk-tools
+    - curl
+    - git
+    - zip
+    - unzip
+    - libxml2-dev
+    - freetype-dev
+    - libjpeg-turbo-dev
+    - libpng-dev
+    - php81
+    - php81-gd
+    - php81-curl
+    - php81-mbstring
+    - php81-phar
+    - php81-openssl
+    - php81-pcntl
+    - composer
+    - vim
+
+entrypoint:
+  command: /bin/sh -l
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+
+accounts:
+  groups:
+    - groupname: minicli
+      gid: 65532
+  users:
+    - username: minicli
+      uid: 65532
+  run-as: root
