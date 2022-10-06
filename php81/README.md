@@ -1,6 +1,6 @@
 # minicli/php81
 
-Distroless apko PHP 8.1 image to execute Minicli applications, including full GD support. This image is automatically built and published to [minicli/php81](https://hub.docker.com/repository/docker/minicli/php81) on Docker Hub via GitHub Actions. Every image includes attestation signatures created with [Sigstore](https://docs.sigstore.dev). With the Cosign client installed, you can check this image signature with:
+Distroless apko PHP 8.1 image to execute Minicli applications, including full GD support. This image is automatically built and published to [minicli/php81](https://hub.docker.com/repository/docker/minicli/php81) on Docker Hub via GitHub Actions. Every image includes attestation signatures created with [Sigstore](https://docs.sigstore.dev). With the [Cosign](https://docs.sigstore.dev/cosign/overview) client installed, you can check this image signature with:
 
 ```shell
 COSIGN_EXPERIMENTAL=1 cosign verify minicli/php81:latest | jq
