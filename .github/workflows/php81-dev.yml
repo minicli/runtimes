@@ -2,7 +2,8 @@ name: Publish minicli/php81-dev Image
 on:
   release:
     types: [published]
-      
+  schedule:
+    - 0 2 * * *
   workflow_dispatch: {}
 
 jobs:
