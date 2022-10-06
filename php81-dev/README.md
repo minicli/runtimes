@@ -15,7 +15,7 @@ You'll get output that tells details about the image signature and should have t
 Use it directly with `docker run` to execute PHP:
 
 ```shell
-docker run --rm erikaheidi/minicli:php81-dev
+docker run -it minicli/php81-dev
 ```
 
 This will land you on the container's shell.

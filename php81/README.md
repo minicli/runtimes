@@ -15,7 +15,7 @@ You'll get output that tells details about the image signature and should have t
 Use it directly with `docker run` to execute PHP:
 
 ```shell
-docker run --rm erikaheidi/minicli:php81 --version
+docker run --rm minicli/php81 --version
 ```
 
 Or extend it from your Dockerfile to create a custom image based on it. This will allow you to install Composer and get your application dependencies installed as well. For instance, the following Dockerfile is used by the [Dynacover](https://github.com/erikaheidi/dynacover) GitHub Action:
