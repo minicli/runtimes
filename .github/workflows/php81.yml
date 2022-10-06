@@ -12,9 +12,6 @@ jobs:
 
     permissions:
       id-token: write
-      
-    outputs:
-      image-refs: ${{ steps.emit-refs.outputs.image-refs }}
 
     steps:
     - uses: actions/checkout@v3
@@ -32,14 +29,8 @@ jobs:
         config: php81/apko.yaml
         base-tag: minicli/php
         archs: x86_64,aarch64,armv7
-        package-version-tag: "8.1"
+        package-version-tag: 8.1
         registry: docker.io        
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         token: ${{ secrets.DOCKER_LOGIN_PASS }}
         image_refs: apko.images
-
-    - name: Emit Image Refs output
-      id: emit-refs
-      run: |
-          cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
-          echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
