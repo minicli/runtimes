@@ -3,7 +3,7 @@ on:
   release:
     types: [published]
       
-  workflow_dispatch: {}
+    workflow_dispatch: {}
 
 jobs:
   build:
@@ -27,9 +27,8 @@ jobs:
     - uses: cpanato/chainguard-images-actions/apko-snapshot@updates
       with:
         config: php81/apko.yaml
-        base-tag: minicli/php
-        archs: x86_64,aarch64,armv7
-        package-version-tag: 8.1
+        base-tag: minicli/php81
+        additional-tags: php
         registry: docker.io        
         username: ${{ secrets.DOCKER_LOGIN_USER }}
         token: ${{ secrets.DOCKER_LOGIN_PASS }}
